@@ -1,1 +1,61 @@
-Hello there:)
+-- sample 
+CREATE DATABASE e_commerce;
+USE e_commerce;
+-- Create Users Table
+CREATE TABLE Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create Products Table
+CREATE TABLE Products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    stock INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create Orders Table
+CREATE TABLE Orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    total DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+-- Create Order_Items Table
+CREATE TABLE Order_Items (
+    order_item_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    product_id INT,
+    quantity INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES Products(product_id) ON DELETE CASCADE
+);
+-- Insert Sample Users
+INSERT INTO Users (username, password, email) VALUES
+('john_doe', 'hashed_password_1', 'john@example.com'),
+('jane_smith', 'hashed_password_2', 'jane@example.com');
+
+-- Insert Sample Products
+INSERT INTO Products (product_name, description, price, stock) VALUES
+('Product 1', 'Description for product 1', 19.99, 100),
+('Product 2', 'Description for product 2', 29.99, 50);
+
+-- Insert Sample Orders
+INSERT INTO Orders (user_id, total) VALUES
+(1, 39.98),
+(2, 19.99);
+
+-- Insert Sample Order Items
+INSERT INTO Order_Items (order_id, product_id, quantity, price) VALUES
+(1, 1, 1, 19.99),
+(1, 2, 1, 29.99),
+(2, 1, 1, 19.99);
