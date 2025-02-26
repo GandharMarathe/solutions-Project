@@ -1,1 +1,87 @@
+-- Create the database
+CREATE DATABASE NGO_Animal_Rescue;
 
+-- Use the created database
+USE NGO_Animal_Rescue;
+
+-- Create Users table
+CREATE TABLE Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    role ENUM('admin', 'volunteer', 'donor', 'ngo') NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Create NGOs table
+CREATE TABLE NGOs (
+    ngo_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    address VARCHAR(255),
+    contact_number VARCHAR(15),
+    email VARCHAR(100),
+    website VARCHAR(100),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Create Animals table
+CREATE TABLE Animals (
+    animal_id INT AUTO_INCREMENT PRIMARY KEY,
+    species VARCHAR(50) NOT NULL,
+    breed VARCHAR(50),
+    age INT,
+    injury_description TEXT,
+    location_latitude DECIMAL(9,6),
+    location_longitude DECIMAL(9,6),
+    status ENUM('injured', 'rescued', 'rehabilitated', 'adopted') NOT NULL,
+    reported_by INT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (reported_by) REFERENCES Users(user_id)
+);
+
+-- Create Reports table
+CREATE TABLE Reports (
+    report_id INT AUTO_INCREMENT PRIMARY KEY,
+    animal_id INT,
+    ngo_id INT,
+    report_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('pending', 'in_progress', 'resolved') NOT NULL,
+    notes TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (animal_id) REFERENCES Animals(animal_id),
+    FOREIGN KEY (ngo_id) REFERENCES NGOs(ngo_id)
+);
+
+-- Create Donations table
+CREATE TABLE Donations (
+    donation_id INT AUTO_INCREMENT PRIMARY KEY,
+    ngo_id INT,
+    donor_id INT,
+    amount DECIMAL(10,2) NOT NULL,
+    donation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    message TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (ngo_id) REFERENCES NGOs(ngo_id),
+    FOREIGN KEY (donor_id) REFERENCES Users(user_id)
+);
+
+-- Create Notifications table
+CREATE TABLE Notifications (
+    notification_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    message TEXT NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+-- Optional: Create indexes for better performance
+CREATE INDEX idx_animal_status ON Animals(status);
+CREATE INDEX idx_ngo_name ON NGOs(name);
+CREATE INDEX idx_user_role ON Users(role);
