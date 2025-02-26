@@ -85,3 +85,10 @@ CREATE TABLE Notifications (
 CREATE INDEX idx_animal_status ON Animals(status);
 CREATE INDEX idx_ngo_name ON NGOs(name);
 CREATE INDEX idx_user_role ON Users(role);
+
+SELECT*FROM animals;
+SELECT*FROM donations;
+SELECT*FROM ngos;
+SELECT*FROM notifications;
+SELECT*FROM reports;
+SELECT*FROM users;
