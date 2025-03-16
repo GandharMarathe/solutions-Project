@@ -1,0 +1,37 @@
+name: inneed
+description: A Flutter app for sharing photos and locations of those in need.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  lottie: ^2.7.0
+  http: ^1.1.0
+  image_picker: ^1.0.4
+  geolocator: ^10.1.0
+  share_plus: ^7.0.0  # For sharing posts
+  firebase_core: ^2.15.0  # Firebase core
+  firebase_auth: ^4.9.0  # Firebase authentication
+  cloud_firestore: ^4.8.0  # Firestore for real-time database
+  firebase_storage: ^11.5.0  # Firebase Storage for image uploads
+  google_sign_in: ^6.1.0  # Google Sign-In
+  provider: ^6.0.0  # State management
+  flutter_chat_ui: ^1.6.0  # For in-app messaging
+  fluttertoast: ^8.2.2  # For showing toast messages
+  intl: ^0.18.1  # For date/time formatting
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.13.1  # For generating app icons
+
+flutter:
+  uses-material-design: true
+

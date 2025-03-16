@@ -1,0 +1,10 @@
+// In your login screen widget
+Lottie.network(
+  'https://assets1.lottiefiles.com/packages/lf20_ktwnwv5m.json',
+  width: 200,
+  height: 200,
+)
+
+flutter:
+  assets:
+    - assets/animations/ # Add this line
