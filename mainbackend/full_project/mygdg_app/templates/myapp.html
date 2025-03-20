@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InNeed - Help Animals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 { text-align: center; }
+        form { margin-bottom: 20px; }
+        label { font-weight: bold; }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 5px;
+        }
+        .report {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>InNeed - Report an Animal in Distress</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="name">Your Name:</label>
+            <input type="text" name="name" required>
+
+            <label for="contact">Contact Info:</label>
+            <input type="text" name="contact" required>
+
+            <label for="location">Animal Location:</label>
+            <input type="text" name="location" required>
+
+            <label for="description">Description of the Situation:</label>
+            <textarea name="description" rows="4" required></textarea>
+
+            <button type="submit">Submit Report</button>
+        </form>
+
+        <h2>Recent Reports</h2>
+        {% for report in reports %}
+            <div class="report">
+                <p><strong>Location:</strong> {{ report.location }}</p>
+                <p><strong>Reported By:</strong> {{ report.name }} ({{ report.contact }})</p>
+                <p><strong>Description:</strong> {{ report.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
